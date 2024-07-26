@@ -5,6 +5,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 
+import kiosk_prj.adminMain.AdminMainPageDesign;
 import kiosk_prj.coupon.controller.ManageCouponEvent;
 import kiosk_prj.coupon.vo.ManageButton;
 
@@ -18,7 +19,6 @@ public class ManageCouponDesign extends JDialog {
 	private JButton jbtnGoToMain;
 	private SearchCouponDesign scdSearch, scdModify;
 	private ImageIcon[] arrIiBtn, arrIiBtnClick;
-	private ImageIcon iiBtnGoToMain;
 	
 	private int lastClickedButton;
 	
@@ -30,19 +30,19 @@ public class ManageCouponDesign extends JDialog {
 		setModal(true);
 
 		arrIiBtn = new ImageIcon[4];
-		arrIiBtn[ManageButton.ADD.ordinal()] = new ImageIcon(getClass().getClassLoader().getResource("kiosk_prj/image/coupon/btn_add_select_not.png"));
-		arrIiBtn[ManageButton.PUBLISH.ordinal()] = new ImageIcon(getClass().getClassLoader().getResource("kiosk_prj/image/coupon/btn_pub_select_not.png"));
-		arrIiBtn[ManageButton.SEARCH.ordinal()] = new ImageIcon(getClass().getClassLoader().getResource("kiosk_prj/image/coupon/btn_search_select_not.png"));
-		arrIiBtn[ManageButton.MODIFY.ordinal()] = new ImageIcon(getClass().getClassLoader().getResource("kiosk_prj/image/coupon/btn_modify_select_not.png"));
+		arrIiBtn[ManageButton.ADD.ordinal()] = new ImageIcon(getClass().getClassLoader().getResource("btn_add_select_not.png"));
+		arrIiBtn[ManageButton.PUBLISH.ordinal()] = new ImageIcon(getClass().getClassLoader().getResource("btn_pub_select_not.png"));
+		arrIiBtn[ManageButton.SEARCH.ordinal()] = new ImageIcon(getClass().getClassLoader().getResource("btn_search_select_not.png"));
+		arrIiBtn[ManageButton.MODIFY.ordinal()] = new ImageIcon(getClass().getClassLoader().getResource("btn_modify_select_not.png"));
 		
 		arrIiBtnClick = new ImageIcon[4];
-		arrIiBtnClick[ManageButton.ADD.ordinal()] = new ImageIcon(getClass().getClassLoader().getResource("kiosk_prj/image/coupon/btn_add_select.png"));
-		arrIiBtnClick[ManageButton.PUBLISH.ordinal()] = new ImageIcon(getClass().getClassLoader().getResource("kiosk_prj/image/coupon/btn_pub_select.png"));
-		arrIiBtnClick[ManageButton.SEARCH.ordinal()] = new ImageIcon(getClass().getClassLoader().getResource("kiosk_prj/image/coupon/btn_search_select.png"));
-		arrIiBtnClick[ManageButton.MODIFY.ordinal()] = new ImageIcon(getClass().getClassLoader().getResource("kiosk_prj/image/coupon/btn_modify_select.png"));
+		arrIiBtnClick[ManageButton.ADD.ordinal()] = new ImageIcon(getClass().getClassLoader().getResource("btn_add_select.png"));
+		arrIiBtnClick[ManageButton.PUBLISH.ordinal()] = new ImageIcon(getClass().getClassLoader().getResource("btn_pub_select.png"));
+		arrIiBtnClick[ManageButton.SEARCH.ordinal()] = new ImageIcon(getClass().getClassLoader().getResource("btn_search_select.png"));
+		arrIiBtnClick[ManageButton.MODIFY.ordinal()] = new ImageIcon(getClass().getClassLoader().getResource("btn_modify_select.png"));
 		
-		iiBtnGoToMain = new ImageIcon(getClass().getClassLoader().getResource("kiosk_prj/image/coupon/btn_go_main.png"));
-		ImageIcon iiBackground = new ImageIcon(getClass().getClassLoader().getResource("kiosk_prj/image/coupon/bg_manage_coupon.png"));
+		ImageIcon iiBtnGoToMain = new ImageIcon(getClass().getClassLoader().getResource("btn_go_main.png"));
+		ImageIcon iiBackground = new ImageIcon(getClass().getClassLoader().getResource("bg_manage_coupon.png"));
 		
 		arrJbtnFunc = new JButton[4];
 		arrJbtnFunc[ManageButton.ADD.ordinal()] = new JButton(arrIiBtn[ManageButton.ADD.ordinal()]);
@@ -110,10 +110,6 @@ public class ManageCouponDesign extends JDialog {
 		this.lastClickedButton = lastClickedButton;
 	}
 
-	public ImageIcon getIiBtnGoToMain() {
-		return iiBtnGoToMain;
-	}
-
 	public ImageIcon[] getArrIiBtn() {
 		return arrIiBtn;
 	}
@@ -126,9 +122,9 @@ public class ManageCouponDesign extends JDialog {
 		return mce;
 	}
 
-	public static void main(String[] args) {
-		// 테스트용 
-		new ManageCouponDesign(new AdminMainPageDesign());
-	} // main
+//	public static void main(String[] args) {
+//		// 테스트용 
+//		new ManageCouponDesign(new AdminMainPageDesign("김병년"));
+//	} // main
 	
 } // class

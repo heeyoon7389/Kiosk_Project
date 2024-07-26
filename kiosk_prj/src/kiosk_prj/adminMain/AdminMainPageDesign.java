@@ -17,19 +17,37 @@ public class AdminMainPageDesign extends JFrame {
 	private JTable jtStatus;
 	private JButton[] arrJbMenuFilter;
 	private JButton jbMeniInfo, jbOrderStatus, jbSales, jbOpen, jbClosd, jbUserManagement, jbOperate, jbCoupon,
-			jbTrends;
+			jbTrends, jbEasterEgg;
 	private DefaultTableModel dtmStatus;
 	private JLabel jlOpenDate, sumAmount;
 
 	private String adminId;
+	
 	public AdminMainPageDesign(String adminId) {
 		super("main");
 		this.adminId = adminId;
 
-		// 이미지
-
-		ImageIcon imgBackground = new ImageIcon("kiosk_prj/src/kiosk_prj/image/main.png");
-
+		ImageIcon imgBackground = new ImageIcon(getClass().getClassLoader().getResource("main.png"));
+		
+		//아이콘 이미지
+		ImageIcon imgIcon1 = new ImageIcon(getClass().getClassLoader().getResource("mainCoffee.png"));
+		ImageIcon imgIcon2 = new ImageIcon(getClass().getClassLoader().getResource("mainNonCoffee.png"));
+		ImageIcon imgIcon3 = new ImageIcon(getClass().getClassLoader().getResource("mainTea.png"));
+		ImageIcon imgIcon4 = new ImageIcon(getClass().getClassLoader().getResource("mainSmoothie.png"));
+		ImageIcon imgIcon5 = new ImageIcon(getClass().getClassLoader().getResource("mainAll.png"));
+		
+		ImageIcon imgIcon6 = new ImageIcon(getClass().getClassLoader().getResource("mainMenuManage.png"));
+		ImageIcon imgIcon7 = new ImageIcon(getClass().getClassLoader().getResource("mainProgress.png"));
+		ImageIcon imgIcon8 = new ImageIcon(getClass().getClassLoader().getResource("mainSettlement.png"));
+		ImageIcon imgIcon9 = new ImageIcon(getClass().getClassLoader().getResource("mainShopOpen.png"));
+		ImageIcon imgIcon10 = new ImageIcon(getClass().getClassLoader().getResource("mainShopClose.png"));
+		
+		ImageIcon imgIcon11 = new ImageIcon(getClass().getClassLoader().getResource("mainMemberShip.png"));
+		ImageIcon imgIcon12 = new ImageIcon(getClass().getClassLoader().getResource("mainKiosk.png"));
+		ImageIcon imgIcon13 = new ImageIcon(getClass().getClassLoader().getResource("mainCoupon.png"));
+		ImageIcon imgIcon14 = new ImageIcon(getClass().getClassLoader().getResource("mainTrend.png"));
+		
+		
 		// 컴포넌트
 		String[] coluumnName = { "종류", "상품명", "가격" };
 		dtmStatus = new DefaultTableModel(coluumnName, 0);
@@ -37,20 +55,21 @@ public class AdminMainPageDesign extends JFrame {
 		JScrollPane jspJtOrderResult = new JScrollPane(jtStatus);
 
 		arrJbMenuFilter = new JButton[5];
-		arrJbMenuFilter[0] = new JButton("Coffee");
-		arrJbMenuFilter[1] = new JButton("Non Coffee");
-		arrJbMenuFilter[2] = new JButton("Tea");
-		arrJbMenuFilter[3] = new JButton("Smoothie");
-		arrJbMenuFilter[4] = new JButton("전체");
-		jbMeniInfo = new JButton("메뉴정보");
-		jbOrderStatus = new JButton("주문현황");
-		jbSales = new JButton("매출");
-		jbOpen = new JButton("개점");
-		jbClosd = new JButton("마감");
-		jbUserManagement = new JButton("사용자관리");
-		jbOperate = new JButton("운영");
-		jbCoupon = new JButton("쿠폰 관리");
-		jbTrends = new JButton("소비 트렌드");
+		arrJbMenuFilter[0] = new JButton(imgIcon1);
+		arrJbMenuFilter[1] = new JButton(imgIcon2);
+		arrJbMenuFilter[2] = new JButton(imgIcon3);
+		arrJbMenuFilter[3] = new JButton(imgIcon4);
+		arrJbMenuFilter[4] = new JButton(imgIcon5);
+		jbMeniInfo = new JButton(imgIcon6);
+		jbOrderStatus = new JButton(imgIcon7);
+		jbSales = new JButton(imgIcon8);
+		jbOpen = new JButton(imgIcon9);
+		jbClosd = new JButton(imgIcon10);
+		jbUserManagement = new JButton(imgIcon11);
+		jbOperate = new JButton(imgIcon12);
+		jbCoupon = new JButton(imgIcon13);
+		jbTrends = new JButton(imgIcon14);
+		jbEasterEgg = new JButton();
 		JLabel lbBackground = new JLabel(imgBackground);
 		jlOpenDate = new JLabel("영업일자 : 개점설정이 필요합니다"); // 영업일자 바뀔때마다 업데이트되어야함.
 		sumAmount = new JLabel("오늘 매출 : ");
@@ -93,6 +112,7 @@ public class AdminMainPageDesign extends JFrame {
 		jbOperate.setBounds(buttonX2, 440, 170, 60);
 		jbCoupon.setBounds(buttonX1, 510, 170, 60);
 		jbTrends.setBounds(buttonX2, 510, 170, 60);
+		jbEasterEgg.setBounds(0, 0, 50, 50);
 		jlOpenDate.setBounds(500, 30, 490, 30);
 		lbBackground.setBounds(0, 0, 1024, 768);
 		
@@ -113,26 +133,30 @@ public class AdminMainPageDesign extends JFrame {
 		add(jbOperate);
 		add(jbCoupon);
 		add(jbTrends);
+		add(jbEasterEgg);
+		jbEasterEgg.setBorderPainted(false);
+		jbEasterEgg.setContentAreaFilled(false);
 		add(jlOpenDate);
 		add(lbBackground);
 
 		// 이벤트 등록
 		
-		AdminMainPageEvent ampetest = new AdminMainPageEvent(this);
-		arrJbMenuFilter[0].addActionListener(ampetest); // Coffee
-		arrJbMenuFilter[1].addActionListener(ampetest); // Non Coffee
-		arrJbMenuFilter[2].addActionListener(ampetest); // Tea
-		arrJbMenuFilter[3].addActionListener(ampetest); // Smoothie
-		arrJbMenuFilter[4].addActionListener(ampetest); // 전체
-		jbMeniInfo.addActionListener(ampetest);
-		jbOrderStatus.addActionListener(ampetest);
-		jbSales.addActionListener(ampetest);
-		jbOpen.addActionListener(ampetest);
-		jbClosd.addActionListener(ampetest);
-		jbUserManagement.addActionListener(ampetest);
-		jbOperate.addActionListener(ampetest);
-		jbCoupon.addActionListener(ampetest);
-		jbTrends.addActionListener(ampetest);
+		AdminMainPageEvent ampe = new AdminMainPageEvent(this);
+		arrJbMenuFilter[0].addActionListener(ampe); // Coffee
+		arrJbMenuFilter[1].addActionListener(ampe); // Non Coffee
+		arrJbMenuFilter[2].addActionListener(ampe); // Tea
+		arrJbMenuFilter[3].addActionListener(ampe); // Smoothie
+		arrJbMenuFilter[4].addActionListener(ampe); // 전체
+		jbMeniInfo.addActionListener(ampe);
+		jbOrderStatus.addActionListener(ampe);
+		jbSales.addActionListener(ampe);
+		jbOpen.addActionListener(ampe);
+		jbClosd.addActionListener(ampe);
+		jbUserManagement.addActionListener(ampe);
+		jbOperate.addActionListener(ampe);
+		jbCoupon.addActionListener(ampe);
+		jbEasterEgg.addActionListener(ampe);
+		jbTrends.addActionListener(ampe);
 
 		setVisible(true);
 		setSize(1024,768);
@@ -140,6 +164,14 @@ public class AdminMainPageDesign extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 //Management.addActionListener(le);
+	}
+
+	public JButton getJbEasterEgg() {
+		return jbEasterEgg;
+	}
+
+	public void setJbEasterEgg(JButton jbEasterEgg) {
+		this.jbEasterEgg = jbEasterEgg;
 	}
 
 	public JLabel getSumAmount() {

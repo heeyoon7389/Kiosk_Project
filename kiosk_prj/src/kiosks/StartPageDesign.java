@@ -1,19 +1,28 @@
 package kiosks;
 
+import java.awt.Color;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import kiosks.StartPageEvent;
+import kiosk_prj.adminMain.AdminMainPageDesign;
+import kiosks.vo.SummaryOrderVO;
 
 @SuppressWarnings("serial")
 public class StartPageDesign extends JFrame{
 
 	private JButton store, takeOut;
 	private JLabel logo;
+	public static String shopOpen;
 	
 	public StartPageDesign() {
+		shopOpen = "2024-03-29";
+		design();
+	}//StartPageDesign
+	public StartPageDesign(AdminMainPageDesign ampd) {
+		shopOpen = ampd.getJlOpenDate().getText();
 		design();
 	}//StartPageDesign
 	
@@ -22,7 +31,7 @@ public class StartPageDesign extends JFrame{
 		takeOut = new JButton("포장");
 		
 		//logo 추가
-		logo = new JLabel(new ImageIcon(getClass().getResource("/kiosk_prj/image/login_logo.png")));
+		logo = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("login_logo.png")));
         
 		setLayout(null);
 		
@@ -40,15 +49,16 @@ public class StartPageDesign extends JFrame{
 		
 		addWindowListener(spe);
 		
+		getContentPane().setBackground(new Color(0xECEDFA));
 		setSize(600,800);
 		setLocationRelativeTo(null);
 		setVisible(true);
 		setResizable(false);
 	}//design
 
-	public static void main(String[] args) {
-		new StartPageDesign();
-	}//main
+//	public static void main(String[] args) {
+//		new StartPageDesign();
+//	}//main
 
 	public JButton getStore() {
 		return store;

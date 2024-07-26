@@ -14,13 +14,16 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-import kiosk_prj.coupon.ManageCouponDesign;
+import easterEgg.EasterEggDesign;
+import kiosk_prj.coupon.view.ManageCouponDesign;
+import kiosk_prj.manumanage.MenuManageDesign;
 import kiosk_prj.membership.MemberShipDesign;
 import kiosk_prj.orderStatus.OrderStatusDesign;
 import kiosk_prj.settlement.SettlementDesign;
 import kiosk_prj.shopClose.ShopCloseDesign;
 import kiosk_prj.shopOpen.ShopOpenDesign;
 import kiosk_prj.trend.TrendDesign;
+import kiosks.StartPageDesign;
 
 public class AdminMainPageEvent extends WindowAdapter implements ActionListener, MouseListener {
 
@@ -57,12 +60,6 @@ public class AdminMainPageEvent extends WindowAdapter implements ActionListener,
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == jbCoffee) {
-			System.out.println("agagag");
-		} // end if
-		if (e.getSource() == jbOrderStatus) {
-			OrderStatusDialog();
-		} // end if
 		if (e.getSource() == jbOpen) {
 			openDate = amod.getJlOpenDate().getText();
 			dateOnly = openDate.substring(9);
@@ -70,29 +67,59 @@ public class AdminMainPageEvent extends WindowAdapter implements ActionListener,
 			new ShopOpenDesign(amod);
 			currentOrderStatus(dateOnly);
 			sumAmount(dateOnly);
-			
+		} // end if
+		
+		//////////////////////////////////////
+		// 개점 이외의 기능은 무조건 개점일이 필요함!!!//
+		//////////////////////////////////////
+		if (jlOpenDate.getText().length() > 17) {
+			JOptionPane.showMessageDialog(null, "개점설정이 필요합니다!");
+			return;
+		} // end if
+		//////////////////////////////////////
+		
+		if (e.getSource() == jbCoffee) {
+			coffeeOrderStatus(dateOnly);
+		} // end if
+		if (e.getSource() == jbNonCoffee) {
+			nonCoffeeOrderStatus(dateOnly);
+		}
+		if (e.getSource() == jbTea) {
+			teaOrderStatus(dateOnly);
+		}
+		if (e.getSource() == jbSmoothie) {
+			smoothieOrderStatus(dateOnly);
+		}
+		if (e.getSource() == jbAll) {
+			currentOrderStatus(dateOnly);
+		}
+		if (e.getSource() == jbOrderStatus) {
+			OrderStatusDialog();
 		} // end if
 		if (e.getSource() == jbUserManagement) {
-			new MemberShipDesign(amod, null);
+			new MemberShipDesign(amod, null, openDate);
+		} // end if
+		if (e.getSource() == jbOperate) {
+			new StartPageDesign();
 		} // end if
 		if (e.getSource() == jbClosd) {
-			int openDate = jlOpenDate.getText().length();
-			if (openDate > 17) {
-				JOptionPane.showMessageDialog(null, "마감은 개점설정 이전에 사용할 수 없습니다.");
-				return;
-			} // end if
 			new ShopCloseDesign(amod);
 		} // end if
 		if (e.getSource() == jbSales) {
 			new SettlementDesign(amod);
 		} // end if
-
+		if (e.getSource() == jbMeniInfo) {
+			new MenuManageDesign();
+		} // end if
 		if (e.getSource() == jbCoupon) {
-			new ManageCouponDesign(amod, null);
+			new ManageCouponDesign(amod);
 		} // end if
 		if (e.getSource() == jbTrends) {
 			new TrendDesign(amod, null);
-		}
+		} // end if
+		if(e.getSource() == amod.getJbEasterEgg()) {
+			new EasterEggDesign(amod, "");
+		} // end if
 	}// actionPerformed
 
 	public void currentOrderStatus(String dateOnly) {
@@ -140,7 +167,131 @@ public class AdminMainPageEvent extends WindowAdapter implements ActionListener,
 			e.printStackTrace();
 		}
 	}
+	public void coffeeOrderStatus(String dateOnly) {
+	    openDate = jlOpenDate.getText();
+	    dateOnly = openDate.substring(7);
+	    
+	    currentOrderDAO coDAO = currentOrderDAO.getInstance();
 
+	    try {
+	        List<currentOrderVO> list = coDAO.searchCurrentOrder(dateOnly);
+	        
+	        DefaultTableModel dtm = amod.getDtmStatus();
+	        dtm.setRowCount(0);
+
+	        String[] rowData = null;
+	        currentOrderVO coVO = null;
+
+	        for (int i = 0; i < list.size(); i++) {
+	            coVO = list.get(i);
+	            // 필터링 조건 설정
+	            if (coVO.getMenuType().equals("커피")) { // 여기서 "원하는_값"에 필터링할 값이 들어갑니다.
+	                rowData = new String[3];
+	                rowData[0] = coVO.getMenuType();
+	                rowData[1] = coVO.getMenuName();
+	                rowData[2] = "" + coVO.getAmount();
+	                dtm.addRow(rowData);
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	public void nonCoffeeOrderStatus(String dateOnly) {
+	    openDate = jlOpenDate.getText();
+	    dateOnly = openDate.substring(7);
+	    
+	    currentOrderDAO coDAO = currentOrderDAO.getInstance();
+
+	    try {
+	        List<currentOrderVO> list = coDAO.searchCurrentOrder(dateOnly);
+	        
+	        DefaultTableModel dtm = amod.getDtmStatus();
+	        dtm.setRowCount(0);
+
+	        String[] rowData = null;
+	        currentOrderVO coVO = null;
+
+	        for (int i = 0; i < list.size(); i++) {
+	            coVO = list.get(i);
+	            // 필터링 조건 설정
+	            if (coVO.getMenuType().equals("N-커피")) { // 여기서 "원하는_값"에 필터링할 값이 들어갑니다.
+	                rowData = new String[3];
+	                rowData[0] = coVO.getMenuType();
+	                rowData[1] = coVO.getMenuName();
+	                rowData[2] = "" + coVO.getAmount();
+	                dtm.addRow(rowData);
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	public void teaOrderStatus(String dateOnly) {
+	    openDate = jlOpenDate.getText();
+	    dateOnly = openDate.substring(7);
+	    
+	    currentOrderDAO coDAO = currentOrderDAO.getInstance();
+
+	    try {
+	        List<currentOrderVO> list = coDAO.searchCurrentOrder(dateOnly);
+	        
+	        DefaultTableModel dtm = amod.getDtmStatus();
+	        dtm.setRowCount(0);
+
+	        String[] rowData = null;
+	        currentOrderVO coVO = null;
+
+	        for (int i = 0; i < list.size(); i++) {
+	            coVO = list.get(i);
+	            // 필터링 조건 설정
+	            if (coVO.getMenuType().equals("티")) { // 여기서 "원하는_값"에 필터링할 값이 들어갑니다.
+	                rowData = new String[3];
+	                rowData[0] = coVO.getMenuType();
+	                rowData[1] = coVO.getMenuName();
+	                rowData[2] = "" + coVO.getAmount();
+	                dtm.addRow(rowData);
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	public void smoothieOrderStatus(String dateOnly) {
+	    openDate = jlOpenDate.getText();
+	    dateOnly = openDate.substring(7);
+	    
+	    currentOrderDAO coDAO = currentOrderDAO.getInstance();
+
+	    try {
+	        List<currentOrderVO> list = coDAO.searchCurrentOrder(dateOnly);
+	        
+	        DefaultTableModel dtm = amod.getDtmStatus();
+	        dtm.setRowCount(0);
+
+	        String[] rowData = null;
+	        currentOrderVO coVO = null;
+
+	        for (int i = 0; i < list.size(); i++) {
+	            coVO = list.get(i);
+	            // 필터링 조건 설정
+	            if (coVO.getMenuType().equals("스무디")) { // 여기서 "원하는_값"에 필터링할 값이 들어갑니다.
+	                rowData = new String[3];
+	                rowData[0] = coVO.getMenuType();
+	                rowData[1] = coVO.getMenuName();
+	                rowData[2] = "" + coVO.getAmount();
+	                dtm.addRow(rowData);
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	
 	public void OrderStatusDialog() {
 		new OrderStatusDesign(amod);
 	}// OrderStatusDialog

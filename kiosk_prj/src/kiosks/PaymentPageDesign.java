@@ -1,5 +1,6 @@
 package kiosks;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.*;
@@ -15,6 +16,9 @@ public class PaymentPageDesign extends JFrame {
 	private DefaultTableModel dtmOrderMemuList;
 	private Font font;
 	private String phoneNum;
+	public static String coupPubCode;
+	public static int amount;
+	public static String strPhoneNum;
 
 	public PaymentPageDesign() {
 		// 수동 배치
@@ -119,6 +123,7 @@ public class PaymentPageDesign extends JFrame {
 
 		addWindowListener(ppe);
 
+		getContentPane().setBackground(new Color(0xECEDFA));
 		setSize(600, 800);
 		setLocationRelativeTo(null);
 		setResizable(false);

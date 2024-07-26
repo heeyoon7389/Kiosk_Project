@@ -1,14 +1,6 @@
 package kiosk_prj.coupon.view;
 
-import java.sql.Date;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -20,15 +12,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-import kiosk_prj.coupon.controller.ConvertCouponRadix;
 import kiosk_prj.coupon.controller.SearchCouponEvent;
 import kiosk_prj.coupon.dao.CouponInfoViewDAO;
-import kiosk_prj.coupon.vo.CouponAddedInfoVO;
-import kiosk_prj.coupon.vo.CouponPubInfoVO;
-import kiosk_prj.coupon.vo.CouponPublishVO;
 import kiosk_prj.coupon.vo.StatusUse;
-
-import static java.lang.String.valueOf;
 
 import java.awt.Font;
 
@@ -63,7 +49,7 @@ public class SearchCouponDesign extends JPanel {
 		JPanel jpCoupKind = new JPanel();
 		JPanel jpCoupIssue = new JPanel();
 		
-		dtmCoupKind = new DefaultTableModel(null, new String[] {"번호", "종류코드", "쿠폰명", "이용기간", "할인액", "발급가능"}) {
+		dtmCoupKind = new DefaultTableModel(null, new String[] {"번호", "등록번호", "쿠폰 이름", "이용 가능 기간", "할인액", "발급가능"}) {
 			@Override
 		    public boolean isCellEditable(int row, int column) {
 		       return false;
@@ -92,7 +78,9 @@ public class SearchCouponDesign extends JPanel {
 		jtabCoupIssue = new JTable(dtmCoupIssue);
 		jtabCoupIssue.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		jtabCoupIssue.getColumn("식별 코드").setPreferredWidth(100);
+		jtabCoupIssue.getColumn("쿠폰 이름").setPreferredWidth(150);
 		jtabCoupIssue.getColumn("발급 조건").setPreferredWidth(300);
+		jtabCoupIssue.getColumn("자동 발급 활성화").setPreferredWidth(100);
 		TableColumnModel tcmCoupIssue = jtabCoupIssue.getColumnModel();
 		
 		tcmCoupIssue.getColumn(0).setCellRenderer(dtcrRight);
@@ -118,7 +106,7 @@ public class SearchCouponDesign extends JPanel {
 		jtbpCoupSearch.add("발급된 쿠폰", jpCoupIssue);
 		jtbpCoupSearch.addChangeListener(sce);
 		try {
-			sce.renewPublishableCouponType();
+			sce.renewPublishableCouponKind();
 			sce.renewCoupIssueTable();
 		} catch (SQLException se) {
 			se.printStackTrace();
@@ -201,9 +189,9 @@ public class SearchCouponDesign extends JPanel {
 			jtbpCoupSearch.add("사용불가 쿠폰", jpCoupUnusable);
 			
 			try {
-				sce.renewRow2DtmCoupPub(dtmCoupPub, civDAO.searchPubCouponView());
-				sce.renewRow2DtmCoupPub(dtmCoupPubUsable, civDAO.searchPubCouponView(StatusUse.USABLE.getIntVal()));
-				sce.renewRow2DtmCoupPub(dtmCoupPubUnUsable, civDAO.searchPubCouponView(StatusUse.UN_USABLE.getIntVal()));
+				sce.renewRow2DtmCoupPub(dtmCoupPub, civDAO.selectPubCouponView());
+				sce.renewRow2DtmCoupPub(dtmCoupPubUsable, civDAO.selectPubCouponView(StatusUse.USABLE.getIntVal()));
+				sce.renewRow2DtmCoupPub(dtmCoupPubUnUsable, civDAO.selectPubCouponView(StatusUse.UN_USABLE.getIntVal()));
 			} catch (SQLException se) {
 				se.printStackTrace();
 				JOptionPane.showMessageDialog(mcd, "발급된 쿠폰 조회에 실패했습니다");

@@ -42,7 +42,6 @@ public class JoinMembershipEvent extends WindowAdapter implements ActionListener
 		.append(jmd.getComMonth().getSelectedItem().toString())
 		.append(jmd.getComDay().getSelectedItem().toString());
 		String birth = births.toString();
-		System.out.println("phoneNum " + phoneNum + "name " + name + "birth " + birth);
 
 		if (!(phoneNum.length() < 10 || birth.length() != 8 || name.length() > 15)) {
 
@@ -59,6 +58,7 @@ public class JoinMembershipEvent extends WindowAdapter implements ActionListener
 				JOptionPane.showMessageDialog(jmd, "회원 등록이 완료되었습니다.");
 				pnd.dispose();// 결제창으로 돌아감.
 			} catch (SQLException e) {
+				e.printStackTrace();
 				JOptionPane.showMessageDialog(jmd, "회원 등록에 실패했습니다.");
 				return;
 			}// end catch
